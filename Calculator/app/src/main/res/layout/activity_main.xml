@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="435dp"
+        android:layout_height="177dp"
+        android:layout_marginTop="235dp"
+        android:gravity="center"
+        android:weightSum="3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.719">
+
+        <Button
+            android:id="@+id/Add"
+            android:layout_width="98dp"
+            android:layout_height="124dp"
+            android:layout_margin="25dp"
+            android:layout_weight="1"
+            android:backgroundTint="#E83A59"
+            android:text="+"
+            android:textAlignment="center"
+            android:textSize="80dp" />
+
+        <Button
+            android:id="@+id/Multiply"
+            android:layout_width="98dp"
+            android:layout_height="124dp"
+            android:layout_margin="25dp"
+            android:layout_weight="1"
+            android:backgroundTint="#383CC1"
+            android:text="*"
+            android:textAlignment="center"
+            android:textSize="80dp"
+            tools:ignore="RtlCompat" />
+
+        <Button
+            android:id="@+id/Subtraction"
+            android:layout_width="98dp"
+            android:layout_height="124dp"
+            android:layout_margin="25dp"
+            android:layout_weight="1"
+            android:text="-"
+            android:textAlignment="center"
+            android:textColor="#4DD637"
+            android:textSize="80dp"
+            tools:ignore="RtlCompat" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="420dp"
+        android:layout_height="168dp"
+        android:layout_marginTop="200dp"
+        android:layout_marginBottom="254dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:weightSum="2"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.555"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.152">
+
+
+        <EditText
+            android:id="@+id/FirstNumber"
+            android:layout_width="match_parent"
+            android:layout_height="74dp"
+            android:textColor="@color/white"
+            android:background="@null"
+            android:gravity="center"
+            android:hint="Enter First Number"
+            android:padding="10dp"
+            android:textColorHint="@color/white"
+            android:textSize="30dp" />
+
+        <EditText
+            android:id="@+id/SecondNumber"
+            android:layout_width="match_parent"
+            android:layout_height="74dp"
+            android:background="@null"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:hint="Enter First Number"
+            android:padding="10dp"
+            android:textColorHint="@color/white"
+            android:textSize="30dp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="Click Button to perform Operation"
+        android:textColor="#8D3DAF"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.0" />
+
+
+    <TextView
+        android:id="@+id/Output"
+        android:layout_width="367dp"
+        android:layout_height="83dp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
