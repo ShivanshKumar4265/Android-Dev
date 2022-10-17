@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "367074743132",
+    "project_id": "kanpur-institute-of-tecnology",
+    "storage_bucket": "kanpur-institute-of-tecnology.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:367074743132:android:4b0eef815ac68a850a6799",
+        "android_client_info": {
+          "package_name": "com.example.kit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "367074743132-bd3s7nsb9b0v0aj2mn90frof3oepvsmm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPOMXP3rm8F82FPjpsk3uWt4ejSi7B_UY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "367074743132-bd3s7nsb9b0v0aj2mn90frof3oepvsmm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
