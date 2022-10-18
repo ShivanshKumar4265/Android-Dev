@@ -1,9 +1,11 @@
 package com.example.kit;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -14,8 +16,21 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 public class UploadImage extends AppCompatActivity {
@@ -28,7 +43,12 @@ public class UploadImage extends AppCompatActivity {
 //------------------------------------------------------------
     private String category; // In this variable we will store the category which will be selected by  admin
     private final int REQ  = 1;
-    private Bitmap bitmap;
+    private Bitmap bitmap; // In This variable the image is stored which we are going to upload
+    private ProgressDialog pd; // ProgressDialog while uploading
+
+    private DatabaseReference reference;
+    private StorageReference  storageReference;
+    String downloadUrl= "";
 
     /*  A bitmap is an object , which is an instance of the Bitmap Class.
         This class represents a 2d coordinate system
@@ -45,7 +65,10 @@ public class UploadImage extends AppCompatActivity {
         uploadImage = findViewById(R.id.ButtonGalleryImage);
         galleryImageView = findViewById(R.id.GalleryImageView);
 
+        pd = new ProgressDialog(this);// Initialized progress dialog
 
+        reference = FirebaseDatabase.getInstance().getReference().child("Gallery");
+        storageReference =  FirebaseStorage.getInstance().getReference().child("Gallery");
 
 //Here we are creating string array for the different category. Variable as categoryList
 
@@ -80,6 +103,34 @@ public class UploadImage extends AppCompatActivity {
            }
        });
 
+// Here we are invoking the functionality of ImageUpload button by setting OnClickListener
+
+       uploadImage.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+
+               // Here we are checking if image is selected or not(Image is stored in bitmap variable)
+
+               if(bitmap == null){
+                   Toast.makeText(UploadImage.this,"Upload Image",Toast.LENGTH_LONG).show();
+
+                // Checking whether user selected the category or not
+
+               }else if(imageCategory.equals("Select Category")){
+
+                   Toast.makeText(UploadImage.this,"Invalid Category",Toast.LENGTH_LONG).show();
+               }
+               else{
+                // user will get the message while uploading the image in progress dialog
+                   pd.setMessage("Uploading....");
+                   pd.show();
+                   // A method to upload image to the firebase
+                   uploadImageGallery();
+
+               }
+           }
+       });
+
 
 
 /*
@@ -93,6 +144,73 @@ public class UploadImage extends AppCompatActivity {
                 openGallery();
             }
         });
+
+    }
+
+    private void uploadImageGallery() {
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream(); //Here we are compressing the images
+        bitmap.compress(Bitmap.CompressFormat.JPEG,50,baos);
+        byte[] finalimg = baos.toByteArray();
+        final StorageReference filePath;
+
+        filePath = storageReference .child(finalimg+"jpg");
+        final UploadTask uploadTask = filePath.putBytes(finalimg);
+        uploadTask.addOnCompleteListener(UploadImage.this, new OnCompleteListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+
+                if(task.isSuccessful()){
+                    uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            filePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+
+                                    downloadUrl=String.valueOf(uri); // We are storing the url of the image
+                                    uploadDataImage(); // Method to upload image
+
+
+                                }
+                            });
+                        }
+                    });
+
+                }
+                else{
+                    pd.dismiss();// when error occur while uploading the this will run
+                    Toast.makeText(UploadImage.this,"Something Went wrong",Toast.LENGTH_LONG).show();
+                }
+
+            }
+        });
+
+    }
+
+    private void uploadDataImage() {
+
+            reference = reference.child(category); // The selected category folder will created(once) and image
+                                                    // uploaded to the same
+
+//      push() function A DatabaseReference pointing to the new location
+
+            final String uniqueKEY = reference.push().getKey();
+
+            reference.child(uniqueKEY).setValue(downloadUrl).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    pd.dismiss();
+                    Toast.makeText(UploadImage.this,"Hurray Successfully uploaded",Toast.LENGTH_LONG).show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    pd.dismiss();
+                    Toast.makeText(UploadImage.this,"Something Went wrong",Toast.LENGTH_LONG).show();
+
+                }
+            });
 
     }
 
@@ -121,5 +239,7 @@ public class UploadImage extends AppCompatActivity {
 
         }
     }
+
+
 
 }

@@ -73,14 +73,14 @@
         <Spinner
             android:id="@+id/ImageCategory"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:gravity="center"
+            android:layout_marginTop="20dp"
             android:spinnerMode="dropdown"
             android:background="@android:drawable/btn_dropdown"
             android:layout_marginVertical="16dp"
             android:contentDescription="Hii"
-            android:backgroundTint="@color/yellow"
-
+            android:backgroundTint="@color/purple_200"
             >
         </Spinner>
 
